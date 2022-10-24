@@ -1,5 +1,7 @@
 import React from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import navList from '../atom/navList';
 
 const Container = styled.div`
     height: 50px;
@@ -50,22 +52,38 @@ border-radius: 10px;
 cursor: pointer;
 `;
 
+const ErrMessageWrapper = styled
+
 
 const Navbar = () => {
+    const location = useLocation();
+    const navigate = useNavigate();
+    const focus = location.pathname.split("/")[2];
+    const userName = window.localStorage.getItem("userName");
   return (
     <Container>
         <Wrapper>
             <Left>
+                <Link to={`/home`}>
                 <Logo>Agency</Logo>
+                </Link>
                 <Menu>
-                    <MenuItem>Home</MenuItem>
-                    <MenuItem>Features</MenuItem>
-                    <MenuItem>Services</MenuItem>
-                    <MenuItem>Pricing</MenuItem>
-                    <MenuItem>Contact</MenuItem>
+                {navList.map(({ title, path }) => {
+              return (
+                <Link style={{ textDecoration: "none" }} to={`/page/${path}`}>
+                  {focus === path ? (
+                    <MenuItem key={path}>{title}</MenuItem>
+                  ) : (
+                    <MenuItem key={path}>{title}</MenuItem>
+                  )}
+                </Link>
+              );
+            })}
                 </Menu>
             </Left>
+            <Link to={`/login`}>
             <Button>JOIN TODAY</Button>
+            </Link>
         </Wrapper>
     </Container>
   )

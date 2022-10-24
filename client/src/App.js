@@ -1,12 +1,18 @@
 import React from 'react'
 import styled, { css } from 'styled-components'
-import Contact from './components/Contact';
-import Feature from './components/Feature';
-import Footer from './components/Footer';
-import Intro from './components/Intro';
+import {
+  BrowserRouter,
+  Route,
+  Link,
+  Switch,
+  Router,
+  Routes,
+} from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import Navbar from './components/Navbar';
-import Price from './components/Price';
-import Service from './components/Service';
+import Home from './pages/Home';
+import Login from './pages/Login';
+
 
 const Container = styled.div`
 height: 100vh;
@@ -55,29 +61,20 @@ const App = () => {
 
   return (
     <>
-    <Container>
-      <Navbar />
-      <Intro/>
-      <IntroShape />
-    </Container>
-    <Container>
-      <Feature/>
-      <FeatureShape/>
-    </Container>
-    <Container>
-      <Service/>
-      {!smallScreen && <ServiceShape/>}
-    </Container>
-    <Container>
-      <Price/>
-      <PriceShape/>
-    </Container>
-    <Container>
-      <Contact/>
-      <Footer/>
-    </Container>
+    <RecoilRoot>
+      <BrowserRouter>
+      <Navbar/>
+      <Routes>
+        <Route path="/home" element={<Home />}></Route>
+        <Route path="/login" element={<Login/>}></Route>
+      </Routes>
+      </BrowserRouter>
+
+    </RecoilRoot>
     </>
   )
 }
 
 export default App
+
+
