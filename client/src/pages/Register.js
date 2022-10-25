@@ -1,11 +1,12 @@
-import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from "axios"
 import styled from 'styled-components';
-import { AuthContext } from '../context/authContext';
 
 const Container = styled.div`
 display: flex;
 justify-content: center;
+background-color: lightcoral;
 `;
 
 const Wrapper = styled.div`
@@ -15,7 +16,6 @@ display: flex;
 align-items: center;
 justify-content: center;
 height: 100vh;
-background-color: white;
 `;
 
 const Title = styled.h1`
@@ -93,52 +93,62 @@ const ButtonContainer = styled.div`
   margin-top: 30px;
 `;
 
+const ErrorMessage = styled.p`
+font-size: 12px;
+color: red;
+text-align: center;
+`;
 
-const Login = () => {
-    const [inputs, setInputs] = useState({
-        username: "",
-        password: "",
-    })
-    const [err, setError] = useState(null);
+const RegisterMessage = styled.span`
+margin-top: 20px;
+font-size: 14px;
+text-align: center;
+`;
 
-    const navigate  = useNavigate();
+const Register = () => {
+  const [inputs, setInputs] = useState({
+    username:"",
+    email:"",
+    password:"",
+  })
+  const [err, setError] = useState(null);
+  const navigator = useNavigate()
 
-    // const { login } = useContext(AuthContext)
-    
-    const handleChange = (e) => {
-        setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value}))
+  const handleChange = (e) => {
+    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+    await axios.post("/auth/register", inputs);
+    navigator("/login")
+    }catch(err) {
+      setError(err.response.data);
     }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            // await login(inputs)
-            navigate("/home");
-        } catch(err) {
-            setError(err.response.data);
-        }
-    }
-
+  }
 
   return (
     <Container>
         <Wrapper>
-            <Title>Agency</Title>
+            <Title>Register</Title>
             <Form>
                 <LeftForm>
-                    <Input onChange={handleChange} type={"input"} placeholder='Your Name'/>
-                    <Input onChange={handleChange} type={"input"} placeholder='Your Email'/>
+                    <Input onChange={handleChange} type={"text"} placeholder='Your Name'/>
+                    <Input onChange={handleChange} type={"text"} placeholder='Your Email'/>
                     <Input onChange={handleChange} type={"password"} placeholder='Your Password'/>
                 </LeftForm>
                 </Form>
                 <ButtonContainer>
-                    <Button onClick={handleSubmit}>Login</Button>
-                    {err && <p>{err}</p>}
+                    <Button onClick={handleSubmit}>Register</Button>
+                    {err && <ErrorMessage>{err}</ErrorMessage>}
                 </ButtonContainer>
+                    <RegisterMessage>Do you have an account? <Link to="/login">Login</Link>
+                    </RegisterMessage>
 
         </Wrapper>
     </Container>
   )
 }
 
-export default Login
+export default Register
