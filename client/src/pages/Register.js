@@ -119,6 +119,7 @@ const Register = () => {
   }
 
   const handleSubmit = async (e) => {
+    console.log(inputs, "회원가입정보")
     e.preventDefault()
     try {
     await axios.post("/auth/register", inputs);
@@ -134,9 +135,9 @@ const Register = () => {
             <Title>Register</Title>
             <Form>
                 <LeftForm>
-                    <Input onChange={handleChange} type={"text"} placeholder='Your Name'/>
-                    <Input onChange={handleChange} type={"text"} placeholder='Your Email'/>
-                    <Input onChange={handleChange} type={"password"} placeholder='Your Password'/>
+                    <Input onChange={handleChange} type={"text"} name="username" placeholder='Your Name'/>
+                    <Input onChange={handleChange} type={"text"} name="email" placeholder='Your Email'/>
+                    <Input onChange={handleChange} type={"password"} name="password" placeholder='Your Password'/>
                 </LeftForm>
                 </Form>
                 <ButtonContainer>

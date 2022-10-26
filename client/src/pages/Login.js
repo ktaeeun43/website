@@ -96,14 +96,14 @@ const ButtonContainer = styled.div`
 
 const Login = () => {
     const [inputs, setInputs] = useState({
-        username: "",
+        email: "",
         password: "",
     })
     const [err, setError] = useState(null);
 
     const navigate  = useNavigate();
 
-    // const { login } = useContext(AuthContext)
+    const { login } = useContext(AuthContext)
     
     const handleChange = (e) => {
         setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value}))
@@ -112,7 +112,7 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            // await login(inputs)
+             await login(inputs)
             navigate("/home");
         } catch(err) {
             setError(err.response.data);
@@ -126,9 +126,8 @@ const Login = () => {
             <Title>Agency</Title>
             <Form>
                 <LeftForm>
-                    <Input onChange={handleChange} type={"input"} placeholder='Your Name'/>
-                    <Input onChange={handleChange} type={"input"} placeholder='Your Email'/>
-                    <Input onChange={handleChange} type={"password"} placeholder='Your Password'/>
+                    <Input onChange={handleChange} type={"input"} name="email" placeholder='Your Email'/>
+                    <Input onChange={handleChange} type={"password"} name="password" placeholder='Your Password'/>
                 </LeftForm>
                 </Form>
                 <ButtonContainer>
